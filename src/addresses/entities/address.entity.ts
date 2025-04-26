@@ -15,7 +15,7 @@ export class Address {
   @Column()
   citycode: number;
   @Column()
-  latitude: number;
+  latitude: string;
   @Column()
-  longitude: number;
+  longitude: string;
 }

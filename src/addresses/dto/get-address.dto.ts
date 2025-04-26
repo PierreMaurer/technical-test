@@ -1,7 +1,7 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsString, IsNotEmpty } from 'class-validator';
 
 export class GetAddressDto {
-  @IsNotEmpty()
   @IsString()
+  @IsNotEmpty({ message: "Le champ 'q' est requis et doit être une chaîne non vide." })
   q: string;
 }
