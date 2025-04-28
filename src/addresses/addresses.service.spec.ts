@@ -71,7 +71,7 @@ describe('AddressesService', () => {
       citycode: 68347,
       latitude: '47.503982',
       longitude: '7.295802',
-      id: 3
+      id: 3,
     };
 
     it('should return address information when API call is successful', async () => {
@@ -80,7 +80,10 @@ describe('AddressesService', () => {
         json: () => Promise.resolve(mockApiResponse),
       });
 
-      mockAddressRepository.save.mockResolvedValue({ ...expectedAddress, id: 1 });
+      mockAddressRepository.save.mockResolvedValue({
+        ...expectedAddress,
+        id: 1,
+      });
 
       const result = await service.getAddresses(getAddressDto);
       expect(result).toEqual({ ...expectedAddress, id: 1 });
@@ -134,86 +137,86 @@ describe('AddressesService', () => {
       adresse: {
         libelle: '35 Rue de Koestlach 68480 Vieux-Ferrette',
         longitude: 7.295802,
-        latitude: 47.503983
+        latitude: 47.503983,
       },
       commune: {
         libelle: 'Vieux-Ferrette',
         codePostal: '68480',
-        codeInsee: '68347'
+        codeInsee: '68347',
       },
       url: 'https://georisques.gouv.fr/mes-risques/connaitre-les-risques-pres-de-chez-moi/rapport2?typeForm=adresse&city=Vieux-Ferrette&codeInsee=68347&lon=7.295802&lat=47.503982&adresse=35+Rue+de+Koestlach+68480+Vieux-Ferrette',
       risquesNaturels: {
         inondation: {
           present: true,
-          libelle: 'Inondation'
+          libelle: 'Inondation',
         },
         risqueCotier: {
           present: false,
-          libelle: 'Risques côtiers (submersion marine, tsunami)'
+          libelle: 'Risques côtiers (submersion marine, tsunami)',
         },
         seisme: {
           present: true,
-          libelle: 'Séisme'
+          libelle: 'Séisme',
         },
         mouvementTerrain: {
           present: true,
-          libelle: 'Mouvements de terrain'
+          libelle: 'Mouvements de terrain',
         },
         reculTraitCote: {
           present: false,
-          libelle: 'Recul du trait de côte'
+          libelle: 'Recul du trait de côte',
         },
         retraitGonflementArgile: {
           present: true,
-          libelle: 'Retrait gonflement des argiles'
+          libelle: 'Retrait gonflement des argiles',
         },
         avalanche: {
           present: false,
-          libelle: 'Avalanche'
+          libelle: 'Avalanche',
         },
         feuForet: {
           present: false,
-          libelle: 'Feu de forêt'
+          libelle: 'Feu de forêt',
         },
         eruptionVolcanique: {
           present: false,
-          libelle: 'Volcan'
+          libelle: 'Volcan',
         },
         cyclone: {
           present: false,
-          libelle: 'Vent violent'
+          libelle: 'Vent violent',
         },
         radon: {
           present: true,
-          libelle: 'Radon'
-        }
+          libelle: 'Radon',
+        },
       },
       risquesTechnologiques: {
         icpe: {
           present: false,
-          libelle: 'Installations industrielles classées (ICPE)'
+          libelle: 'Installations industrielles classées (ICPE)',
         },
         nucleaire: {
           present: false,
-          libelle: 'Nucléaire'
+          libelle: 'Nucléaire',
         },
         canalisationsMatieresDangereuses: {
           present: true,
-          libelle: 'Canalisations de transport de matières dangereuses'
+          libelle: 'Canalisations de transport de matières dangereuses',
         },
         pollutionSols: {
           present: false,
-          libelle: 'Pollution des sols'
+          libelle: 'Pollution des sols',
         },
         ruptureBarrage: {
           present: false,
-          libelle: 'Rupture de barrage'
+          libelle: 'Rupture de barrage',
         },
         risqueMinier: {
           present: false,
-          libelle: 'Risques miniers'
-        }
-      }
+          libelle: 'Risques miniers',
+        },
+      },
     };
 
     it('should return risks information when both database and API calls are successful', async () => {
