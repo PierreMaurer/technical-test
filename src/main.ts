@@ -3,9 +3,18 @@ import { AppModule } from './app.module';
 import { ValidationPipe, BadRequestException } from '@nestjs/common';
 import helmet from 'helmet';
 import * as process from 'node:process';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const config = new DocumentBuilder()
+    .setTitle('Stage backend - premier test tech (niv 1) - API Documentation')
+    .setDescription('Stage backend - premier test tech (niv 1) API description')
+    .setVersion('1.0')
+    .addTag('API')
+    .build();
+  const documentFactory = () => SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, documentFactory);
   app.use(helmet());
   app.enableCors({
     origin: process.env.CORS_ORIGIN || '*',
@@ -23,6 +32,6 @@ async function bootstrap() {
       },
     }),
   );
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(process.env.PORT ?? 8000);
 }
 bootstrap();

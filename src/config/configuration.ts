@@ -1,5 +1,9 @@
+import * as process from 'node:process';
+
 export default () => ({
-  port: parseInt(process.env.PORT, 10) || 3000,
+  port: parseInt(process.env.API_PORT, 10) || 8000,
+  TYPEORM_CONNECTION: process.env.TYPEORM_CONNECTION || 'sqlite',
+  TYPEORM_DATABASE: `.${process.env.TYPEORM_DATABASE}` || './data/db.sqlite',
   api: {
     georisques: {
       baseUrl:
@@ -8,8 +12,7 @@ export default () => ({
     },
     addresses: {
       baseUrl:
-        process.env.GEORISQUES_API_URL ||
-        'https://api-adresse.data.gouv.fr/search/?q=',
+        process.env.ADDRESSES_API_URL,
     },
   },
 });

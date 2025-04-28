@@ -9,6 +9,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { EntityNotFoundError, Repository } from 'typeorm';
 import { Address } from './entities/address.entity';
 import { ConfigService } from '@nestjs/config';
+import { AddresseInterface } from './interface/addresseInterface';
+import { RiskInterface } from './interface/riskInterface';
 
 @Injectable()
 export class AddressesService {
@@ -24,16 +26,16 @@ export class AddressesService {
         this.configService.get<string>('api.addresses.baseUrl') + q,
       );
       if (!response.ok) throw new Error();
-      const fetchedAdress: any = await response.json();
+      const fetchedAdress: AddresseInterface = await response.json();
       if (fetchedAdress.features.length == 0) throw new NotFoundException();
       const payload = {
         label: fetchedAdress.features[0].properties.label,
         housenumber: fetchedAdress.features[0].properties.housenumber,
         street: fetchedAdress.features[0].properties.street,
-        postcode: fetchedAdress.features[0].properties.postcode,
-        citycode: fetchedAdress.features[0].properties.citycode,
-        latitude: fetchedAdress.features[0].geometry.coordinates[1],
-        longitude: fetchedAdress.features[0].geometry.coordinates[0],
+        postcode: parseInt(fetchedAdress.features[0].properties.postcode),
+        citycode: parseInt(fetchedAdress.features[0].properties.citycode),
+        latitude: fetchedAdress.features[0].geometry.coordinates[1].toString(),
+        longitude: fetchedAdress.features[0].geometry.coordinates[0].toString(),
       };
       return await this.addressRepository.save(payload);
     } catch (errors) {
@@ -57,7 +59,7 @@ export class AddressesService {
 
   async getRisks(id: number) {
     try {
-      const adress = await this.addressRepository.findOneOrFail({
+      const adress: Address = await this.addressRepository.findOneOrFail({
         where: { id },
       });
       if (!adress) throw new NotFoundException();
@@ -68,7 +70,8 @@ export class AddressesService {
       if (!response.ok) {
         throw new Error();
       }
-      return await response.json();
+      const risks: RiskInterface = await response.json();
+      return risks;
     } catch (error) {
       if (error instanceof EntityNotFoundError) {
         throw new HttpException(
